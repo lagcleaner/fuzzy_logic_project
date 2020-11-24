@@ -8,6 +8,9 @@ class AbstractFuzzySet:
     Abstract class for a fuzzy set representation, only needs an `membership` method.
     '''
 
+    def __init__(self, name: str):
+        self.name = name
+
     def membership(self, x):
         raise NotImplementedError
 
@@ -19,7 +22,8 @@ class CustomizableFuzzySet(AbstractFuzzySet):
     Generic fuzzy set with a domain and a membership function to be specified.
     '''
 
-    def __init__(self, name: str, domain: tuple, membership_function=None):
+    def __init__(self, name: str, domain: tuple, membership_function=None, points=[]):
+        super().__init__(name)
         if membership_function is None:
             raise ValueError(
                 'Membership function cant be None'
@@ -27,6 +31,7 @@ class CustomizableFuzzySet(AbstractFuzzySet):
         self.name = name
         self._membership = membership_function
         self.domain = domain
+        self.points = points
 
     def membership(self, x: float):
         return self._membership(x)
@@ -39,15 +44,14 @@ class GammaFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the gamma function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), a=13, b=17):
-        if None in (name, a, b, domain) or len(domain) != 2:
-            raise ValueError
+    def __init__(self, name: str, domain: tuple = (10, 20), points=[13, 17]):
+        # points -> (a, b)
         super().__init__(
             name,
             domain,
-            membership_function=self._gammamf
+            membership_function=self._gammamf,
+            points=points
         )
-        self.points = (a, b)
 
     def _gammamf(self, x):
         a, b = self.points
@@ -65,15 +69,14 @@ class LambdaFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the lambda function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), a=13, b=17, middle=15):
-        if None in (name, a, b, middle, domain) or len(domain) != 2:
-            raise ValueError
+    def __init__(self, name: str, domain: tuple = (10, 20), points=[13, 17, 15]):
+        # points -> a, b, middle
         super().__init__(
             name,
             domain,
-            membership_function=self._lmbmf
+            membership_function=self._lmbmf,
+            points=points
         )
-        self.points = (a, b, middle)
 
     def _lmbmf(self, x):
         a, b, middle = self.points
@@ -91,15 +94,14 @@ class TrapezoidalFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the trapezoidal function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), a=12, b=14, c=16, d=18):
-        if None in (name, a, b, c, d, domain) or len(domain) != 2:
-            raise ValueError
+    def __init__(self, name: str, domain: tuple = (10, 20), points=[12, 14, 16, 18]):
+        # points -> (a, b, c, d)
         super().__init__(
             name,
             domain,
-            membership_function=self._trapmf
+            membership_function=self._trapmf,
+            points=points
         )
-        self.points = (a, b, c, d)
 
     def _trapmf(self, x):
         a, b, c, d = self.points
@@ -119,15 +121,14 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the sigmoidal function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), a=12, b=18, middle=15):
-        if None in (name, a, b, middle, domain) or len(domain) != 2:
-            raise ValueError
+    def __init__(self, name: str, domain: tuple = (10, 20), points=[12, 18, 15]):
+        # points -> (a, b, middle)
         super().__init__(
             name,
             domain,
-            membership_function=self._smf
+            membership_function=self._smf,
+            points=points
         )
-        self.points = (a, b, middle)
 
     def _smf(self, x):
         a, b, middle = self.points
@@ -141,7 +142,6 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
             return 1 - 2 * ((x - a) / (b - a)) ** 2
         if x >= b:
             return 1
-        return 0
 
 
 class GaussianFuzzySet(CustomizableFuzzySet):
@@ -149,15 +149,14 @@ class GaussianFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the gaussian function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), a=3, middle=15):
-        if None in (name, a, middle, domain) or len(domain) != 2:
-            raise ValueError
+    def __init__(self, name: str, domain: tuple = (10, 20), points=[3, 15]):
+        # points -> (a, middle)
         super().__init__(
             name,
             domain,
-            membership_function=self._gmf
+            membership_function=self._gmf,
+            points=points
         )
-        self.points = (a,  middle)
 
     def _gmf(self, x):
         a, middle = self.points
