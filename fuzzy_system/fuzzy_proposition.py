@@ -1,3 +1,5 @@
+from fuzzy_system.linguistic_variable import LinguisticVariable
+
 
 def tconorm_max(val1, val2): return max(val1, val2)
 
@@ -69,3 +71,5 @@ class MembershipProposition(FuzzyProposition):
         self.descriptor = descriptor
 
     def evaluate(self, values: dict):
+        return self.variable.fuzzify(
+            values[self.variable.variable_name], self.descriptor)
