@@ -1,6 +1,6 @@
 
-from fuzzy_system.membership_functions import *
 from math import exp
+from fuzzy_system.norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
 
 
 class FuzzySet:
@@ -209,7 +209,7 @@ class MamdaniCut(CustomizableFuzzySet):
         return min(self.value, self.origin.membership(x))
 
 
-class LarsenMethod(CustomizableFuzzySet):
+class LarsenScale(CustomizableFuzzySet):
     def __init__(self, fuzzy_set: CustomizableFuzzySet, value: float):
         self.value = value
         self.origin = fuzzy_set
