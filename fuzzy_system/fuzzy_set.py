@@ -85,12 +85,24 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (10, 20), a=12, b=18, middle=15):
         if None in (name, a, b, domain) or len(domain) != 2:
+class GaussianFuzzySet(CustomizableFuzzySet):
+    '''
+    Fuzzy Set whit the gaussian function as membership function.
+    '''
+
+    def __init__(self, name: str, domain: tuple = (10, 20), a=3, middle=15):
+        if None in (name, a, middle, domain) or len(domain) != 2:
             raise ValueError
         super().__init__(
             name,
             domain,
-            membership_function=smf(a, b, middle=middle)
+            membership_function=self._gmf
         )
+        self.points = (a,  middle)
+
+    def _gmf(self, x):
+        a, middle = self.points
+        return exp(- a * (x - middle) ** 2)
 
 
 # aliases
