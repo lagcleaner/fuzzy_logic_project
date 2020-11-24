@@ -33,6 +33,11 @@ class CustomizableFuzzySet(FuzzySet):
         self.domain = domain
         self.points = points
 
+    def __add__(self, other):
+        if not isinstance(other, FuzzySet):
+            raise TypeError
+        return UnionFuzzySet(self, other)
+
     def membership(self, x: float):
         return self._membership(x)
 
@@ -161,11 +166,35 @@ class GaussianFuzzySet(CustomizableFuzzySet):
     def _gmf(self, x):
         a, middle = self.points
         return exp(- a * (x - middle) ** 2)
+# Composed Fuzzy Set
+
+
+class UnionFuzzySet(CustomizableFuzzySet):
+    def __init__(self, fuzzy_set1: CustomizableFuzzySet, fuzzy_set2: CustomizableFuzzySet, tconorm=tconorm_max):
+        self.tconorm = tconorm
+        self.fs1 = fuzzy_set1
+        self.fs2 = fuzzy_set2
+        super().__init__(
+            '_U_'.join((fuzzy_set1.name, fuzzy_set2.name)),
+            (
+                min(fuzzy_set1.domain[0], fuzzy_set2.domain[0]),
+                max(fuzzy_set1.domain[1], fuzzy_set2.domain[1])
+            ),
+            membership_function=self._union,
+            points=fuzzy_set1.points + fuzzy_set2.points
+        )
+
+    def _union(self, x):
+        return self.tconorm(
+            self.fs1.membership(x),
+            self.fs2.membership(x)
+        )
+
 
 # Mamdani and Larsen Fuzzy Set modifiers
 
 
-class MamdaniMethod(CustomizableFuzzySet):
+class MamdaniCut(CustomizableFuzzySet):
     def __init__(self, fuzzy_set: CustomizableFuzzySet, value: float):
         self.value = value
         self.origin = fuzzy_set
