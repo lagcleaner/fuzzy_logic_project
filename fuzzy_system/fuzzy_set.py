@@ -3,7 +3,7 @@ from fuzzy_system.membership_functions import *
 from math import exp
 
 
-class AbstractFuzzySet:
+class FuzzySet:
     '''
     Abstract class for a fuzzy set representation, only needs an `membership` method.
     '''
@@ -17,7 +17,7 @@ class AbstractFuzzySet:
 # Custom FuzzySet
 
 
-class CustomizableFuzzySet(AbstractFuzzySet):
+class CustomizableFuzzySet(FuzzySet):
     '''
     Generic fuzzy set with a domain and a membership function to be specified.
     '''
