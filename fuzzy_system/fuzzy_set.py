@@ -162,6 +162,38 @@ class GaussianFuzzySet(CustomizableFuzzySet):
         a, middle = self.points
         return exp(- a * (x - middle) ** 2)
 
+# Mamdani and Larsen Fuzzy Set modifiers
+
+
+class MamdaniMethod(CustomizableFuzzySet):
+    def __init__(self, fuzzy_set: CustomizableFuzzySet, value: float):
+        self.value = value
+        self.origin = fuzzy_set
+        super().__init__(
+            'mamdani_{}'.format(fuzzy_set.name),
+            domain=fuzzy_set.domain,
+            membership_function=self._mamdani,
+            points=fuzzy_set.points
+        )
+
+    def _mamdani(self, x):
+        return min(self.value, self.origin.membership(x))
+
+
+class LarsenMethod(CustomizableFuzzySet):
+    def __init__(self, fuzzy_set: CustomizableFuzzySet, value: float):
+        self.value = value
+        self.origin = fuzzy_set
+        super().__init__(
+            'larsen_{}'.format(fuzzy_set.name),
+            domain=fuzzy_set.domain,
+            membership_function=self._larsen,
+            points=fuzzy_set.points
+        )
+
+    def _larsen(self, x):
+        return (self.value * self.origin.membership(x))
+
 
 # aliases
 PiFuzzySet = TrapezoidalFuzzySet
