@@ -69,6 +69,33 @@ class GammaFuzzySet(CustomizableFuzzySet):
             return 1
 
 
+class LFuzzySet(CustomizableFuzzySet):
+    '''
+    Fuzzy Set whit the L function as membership function.(opposite of gamma)
+    '''
+
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
+        # points -> (a, b)
+        if points == None:
+            points = (domain[0], domain[1])
+        super().__init__(
+            name,
+            domain,
+            membership_function=self._lmf,
+            points=points
+        )
+
+    def _lmf(self, x):
+        a, b = self.points
+
+        if x <= a:
+            return 1
+        if a < x < b:
+            return (b - x) / (b - a)
+        if x >= b:
+            return 0
+
+
 class LambdaFuzzySet(CustomizableFuzzySet):
     '''
     Fuzzy Set whit the lambda function as membership function.
