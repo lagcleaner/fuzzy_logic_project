@@ -49,8 +49,10 @@ class GammaFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the gamma function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), points=[13, 17]):
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b)
+        if points == None:
+            points = (domain[0], domain[1])
         super().__init__(
             name,
             domain,
@@ -101,8 +103,10 @@ class LambdaFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the lambda function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), points=[13, 17, 15]):
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> a, b, middle
+        if points == None:
+            points = domain[0], domain[1], (domain[0] + domain[1]) / 2
         super().__init__(
             name,
             domain,
@@ -126,8 +130,15 @@ class TrapezoidalFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the trapezoidal function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), points=[12, 14, 16, 18]):
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b, c, d)
+        if points == None:
+            points = (
+                domain[0],
+                (domain[0] + domain[1]) / 3,
+                2 * (domain[0] + domain[1]) / 3,
+                domain[1]
+            )
         super().__init__(
             name,
             domain,
@@ -153,8 +164,14 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the sigmoidal function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), points=[12, 18, 15]):
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b, middle)
+        if points == None:
+            points = (
+                domain[0],
+                domain[1],
+                (domain[0] + domain[1]) / 2,
+            )
         super().__init__(
             name,
             domain,
@@ -181,8 +198,14 @@ class GaussianFuzzySet(CustomizableFuzzySet):
     Fuzzy Set whit the gaussian function as membership function.
     '''
 
-    def __init__(self, name: str, domain: tuple = (10, 20), points=[3, 15]):
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, middle)
+        if points == None:
+            points = (
+                domain[0],
+                domain[1],
+                (domain[0] + domain[1]) / 2,
+            )
         super().__init__(
             name,
             domain,
