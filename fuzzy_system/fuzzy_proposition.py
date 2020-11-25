@@ -22,6 +22,9 @@ class FuzzyProposition:
         else:
             raise TypeError
 
+    def __invert__(self):
+        return NotFuzzyProposition(self, tnorm=self.tnorm, tconorm=self.tconorm)
+
 
 class BinaryFuzzyProposition(FuzzyProposition):
     def __init__(self, proposition_l, proposition_r, tnorm=tnorm_min, tconorm=tconorm_max):

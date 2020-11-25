@@ -9,13 +9,13 @@ class FuzzyRule:
     A General Rule for apply any method of inference.
     '''
 
-    def __init__(self, preposition: FuzzyProposition, consequent: list, method_transformer=None):
+    def __init__(self, proposition: FuzzyProposition, consequent: list, method_transformer=None):
         self.transformer = method_transformer
-        self.preposition = preposition
+        self.proposition = proposition
         self.consequent = consequent
 
     def evaluate(self, values: dict):
-        prepos_value: float = self.preposition.evaluate(values)
+        prepos_value: float = self.proposition.evaluate(values)
         conseq_transformed_sets = {}
         if not (self.transformer is None):
             for variable, descrip in self.consequent:
