@@ -10,6 +10,9 @@ def domain_sample(cfs: CustomizableFuzzySet, step=0.1):
 
 
 def centroid_dediffusion(cfs: CustomizableFuzzySet, step=0.1):
+    '''
+    Centroid
+    '''
     data = domain_sample(cfs, step=step)
     sum_num = 0
     sum_den = 0
@@ -21,6 +24,9 @@ def centroid_dediffusion(cfs: CustomizableFuzzySet, step=0.1):
 
 
 def bisection_dediffusion(cfs: CustomizableFuzzySet, step=0.1):
+    '''
+    Bisection
+    '''
     data = domain_sample(cfs, step=step)
     sums = [cfs.membership(data[0])]
     for x in data[1:]:
