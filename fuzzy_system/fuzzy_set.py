@@ -51,7 +51,7 @@ class GammaFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b)
-        if points == None:
+        if points == None or len(points) != 2:
             points = (domain[0], domain[1])
         super().__init__(
             name,
@@ -78,7 +78,7 @@ class LFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b)
-        if points == None:
+        if points == None or len(points) != 2:
             points = (domain[0], domain[1])
         super().__init__(
             name,
@@ -105,7 +105,7 @@ class LambdaFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> a, b, middle
-        if points == None:
+        if points == None or len(points) != 3:
             points = domain[0], domain[1], (domain[0] + domain[1]) / 2
         super().__init__(
             name,
@@ -132,7 +132,7 @@ class TrapezoidalFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b, c, d)
-        if points == None:
+        if points == Noneor len(points) != 4:
             points = (
                 domain[0],
                 (domain[0] + domain[1]) / 3,
@@ -166,7 +166,7 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b, middle)
-        if points == None:
+        if points == None or len(points) != 3:
             points = (
                 domain[0],
                 domain[1],
@@ -200,7 +200,7 @@ class GaussianFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, middle)
-        if points == None:
+        if points == None or len(points) != 2:
             points = (
                 domain[0],
                 domain[1],
