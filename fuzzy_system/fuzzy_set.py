@@ -193,6 +193,40 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
             return 1
 
 
+class ZFuzzySet(CustomizableFuzzySet):
+    '''
+    Fuzzy Set whit the Z function as membership function.(opposite of sigmoidal)
+    '''
+
+    def __init__(self, name: str, domain: tuple = (0, 20), points=None):
+        # points -> (a, b, middle)
+        if points == None or len(points) != 3:
+            points = (
+                domain[0],
+                domain[1],
+                (domain[0] + domain[1]) / 2,
+            )
+        super().__init__(
+            name,
+            domain,
+            membership_function=self._smf,
+            points=points
+        )
+
+    def _smf(self, x):
+        a, b, middle = self.points
+
+        middle = (a + b) / 2 if middle is None else middle
+        if x <= a:
+            return 1
+        if a < x <= middle:
+            return 1 - 2 * ((x - a) / (b - a)) ** 2
+        if middle < x < b:
+            return 2 * ((b - x) / (b - a)) ** 2
+        if x >= b:
+            return 0
+
+
 class GaussianFuzzySet(CustomizableFuzzySet):
     '''
     Fuzzy Set whit the gaussian function as membership function.
