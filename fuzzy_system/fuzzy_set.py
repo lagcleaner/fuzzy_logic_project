@@ -144,7 +144,7 @@ class SigmoidalFuzzySet(CustomizableFuzzySet):
         if a < x <= middle:
             return 2 * ((x - a) / (b - a)) ** 2
         if middle < x < b:
-            return 1 - 2 * ((x - a) / (b - a)) ** 2
+            return 1 - 2 * ((b - x) / (b - a)) ** 2
         if x >= b:
             return 1
 
