@@ -132,7 +132,7 @@ class TrapezoidalFuzzySet(CustomizableFuzzySet):
 
     def __init__(self, name: str, domain: tuple = (0, 20), points=None):
         # points -> (a, b, c, d)
-        if points == Noneor len(points) != 4:
+        if points == None or len(points) != 4:
             points = (
                 domain[0],
                 (domain[0] + domain[1]) / 3,

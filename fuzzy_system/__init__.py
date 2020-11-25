@@ -21,6 +21,7 @@ from .fuzzy_rule import (
 )
 from .fuzzy_set import (
     CustomizableFuzzySet,
+    LFuzzySet,
     GammaFuzzySet,
     GaussianFuzzySet,
     LambdaFuzzySet,
@@ -28,6 +29,7 @@ from .fuzzy_set import (
     MamdaniCut,
     PiFuzzySet,
     SigmoidalFuzzySet,
+    ZFuzzySet,
     TrapezoidalFuzzySet,
     TriangleFuzzySet,
     UnionFuzzySet
@@ -39,7 +41,6 @@ from .fuzzy_system_impl import (
     mom_dediffusion,
     som_dediffusion,
     FuzzySystem,
-    FuzzyMamdiniSystem,
 )
 from .linguistic_variable import LinguisticVariable
 from .norms import (
