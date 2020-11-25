@@ -13,7 +13,7 @@ class LinguisticVariable:
     def fuzzify(self, x, descriptor):
         return self.fuzzy_sets[descriptor].membership(x)
 
-    def __eq__(self, other):
+    def __mod__(self, other):
         if isinstance(other, str):
             return MembershipProposition(self, other)
         else:
