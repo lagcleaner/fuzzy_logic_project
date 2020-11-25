@@ -1,5 +1,5 @@
 from fuzzy_system.linguistic_variable import LinguisticVariable
-from fuzzy_system.norms import *
+from fuzzy_system.norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
 
 
 class FuzzyProposition:
