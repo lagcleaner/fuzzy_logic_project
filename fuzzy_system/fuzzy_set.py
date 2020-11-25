@@ -214,8 +214,16 @@ class GaussianFuzzySet(CustomizableFuzzySet):
         )
 
     def _gmf(self, x):
-        a, middle = self.points
-        return exp(- a * (x - middle) ** 2)
+        a, b, middle = self.points
+
+        if x <= a:
+            return 0
+        if a < x <= middle:  # s function
+            return 2 * ((x - a) / (b - a)) ** 2
+        if middle < x < b:  # z function
+            return 2 * ((b - x) / (b - a)) ** 2
+        if x >= b:
+            return 0
 # Composed Fuzzy Set
 
 
