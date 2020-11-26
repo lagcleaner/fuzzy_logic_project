@@ -14,12 +14,14 @@ def centroid_dediffusion(cfs: CustomizableFuzzySet, step=0.1):
     Centroid
     '''
     data = domain_sample(cfs, step=step)
-    sum_num = 0
-    sum_den = 0
+    sum_num = 0.0
+    sum_den = 0.0
     for x in data:
         memb = cfs.membership(x)
         sum_num += x * memb
         sum_den += memb
+    if sum_den == 0:
+        return 0
     return sum_num / sum_den
 
 
@@ -61,4 +63,4 @@ def mom_dediffusion(cfs: CustomizableFuzzySet, step=0.1):
     '''
     min_max = som_dediffusion(cfs, step=step)
     max_max = lom_dediffusion(cfs, step=step)
-    return (min_max + max_max)/2
+    return (min_max + max_max) / 2
