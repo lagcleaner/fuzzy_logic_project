@@ -6,12 +6,15 @@ from .dediffusion import (
     mom_dediffusion,
     som_dediffusion
 )
-# from .fuzzy_proposition import (
-#     tconorm_max,
-#     tconorm_product,
-#     tnorm_min,
-#     tnorm_product,
-# )
+from .fuzzy_proposition import (
+    FuzzyProposition,
+    LinguisticVariable,
+    MembershipProposition,
+    MembershipProposition,
+    NotFuzzyProposition,
+    OrFuzzyProposition,
+    AndFuzzyProposition,
+)
 from .fuzzy_rule import (
     LarsenScale,
     LarsenRule,
@@ -42,7 +45,6 @@ from .fuzzy_system_impl import (
     som_dediffusion,
     FuzzySystem,
 )
-from .linguistic_variable import LinguisticVariable
 from .norms import (
     tconorm_max,
     tconorm_product,
