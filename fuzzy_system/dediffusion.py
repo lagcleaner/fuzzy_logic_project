@@ -4,7 +4,7 @@ from fuzzy_system.fuzzy_set import CustomizableFuzzySet
 
 def domain_sample(cfs: CustomizableFuzzySet, step=0.1):
     sample = list(arange(
-        cfs.domain[0], cfs.domain[1], step)) + cfs.points
+        cfs.domain[0], cfs.domain[1], step)) + list(cfs.points)
     sample.sort()
     return sample
 
