@@ -1,3 +1,4 @@
 .vscode
 .dir*
 *__pycache__
+*.cache
