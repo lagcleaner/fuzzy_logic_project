@@ -1,4 +1,4 @@
-from fuzzy_system.linguistic_variable import LinguisticVariable
+from fuzzy_system.fuzzy_set import FuzzySet
 from fuzzy_system.norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
 
 
@@ -10,13 +10,13 @@ class FuzzyProposition:
     def evaluate(self, values: dict):
         raise NotImplementedError()
 
-    def __or__(self, other: FuzzyProposition):
+    def __or__(self, other):
         if isinstance(other, FuzzyProposition):
             return OrFuzzyProposition(self, other, tnorm=self.tnorm, tconorm=self.tconorm)
         else:
             raise TypeError
 
-    def __and__(self, other: FuzzyProposition):
+    def __and__(self, other):
         if isinstance(other, FuzzyProposition):
             return AndFuzzyProposition(self, other, tnorm=self.tnorm, tconorm=self.tconorm)
         else:
@@ -28,8 +28,9 @@ class FuzzyProposition:
 
 class BinaryFuzzyProposition(FuzzyProposition):
     def __init__(self, proposition_l, proposition_r, tnorm=tnorm_min, tconorm=tconorm_max):
-        self.proposition_l: BinaryFuzzyProposition = proposition_l
-        self.proposition_r: BinaryFuzzyProposition = proposition_r
+        super().__init__(tnorm=tnorm, tconorm=tconorm)
+        self.proposition_l: FuzzyProposition = proposition_l
+        self.proposition_r: FuzzyProposition = proposition_r
 
 
 class AndFuzzyProposition(BinaryFuzzyProposition):
@@ -56,6 +57,23 @@ class NotFuzzyProposition(FuzzyProposition):
         return 1 - val
 
 
+class LinguisticVariable:
+    def __init__(self, name: str, *args):
+        self.name = name
+        if not all(isinstance(fset, FuzzySet) for fset in args):
+            raise TypeError
+        self.fuzzy_sets = {ufs.name: ufs for ufs in args}
+
+    def fuzzify(self, x, descriptor):
+        return self.fuzzy_sets[descriptor].membership(x)
+
+    def __mod__(self, other):
+        if isinstance(other, str):
+            return MembershipProposition(self, other)
+        else:
+            raise TypeError
+
+
 class MembershipProposition(FuzzyProposition):
     def __init__(self, variable: LinguisticVariable, descriptor: str, tnorm=tnorm_min, tconorm=tconorm_max):
         super().__init__(tnorm=tnorm, tconorm=tconorm)
@@ -64,4 +82,4 @@ class MembershipProposition(FuzzyProposition):
 
     def evaluate(self, values: dict):
         return self.variable.fuzzify(
-            values[self.variable.variable_name], self.descriptor)
+            values[self.variable.name], self.descriptor)

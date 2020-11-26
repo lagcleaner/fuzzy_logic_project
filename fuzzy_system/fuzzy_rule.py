@@ -19,7 +19,7 @@ class FuzzyRule:
         conseq_transformed_sets = {}
         if not (self.transformer is None):
             for variable, descrip in self.consequent:
-                fs = variable.descriptors[descrip]
+                fs = variable.fuzzy_sets[descrip]
                 conseq_transformed_sets[variable.name] = \
                     self.transformer(
                     prepos_value,

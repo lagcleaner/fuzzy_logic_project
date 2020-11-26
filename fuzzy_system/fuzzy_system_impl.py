@@ -9,7 +9,7 @@ class FuzzySystem:
     def infer(self, values: dict, dediffusion_method=centroid_dediffusion):
         _, final_sets = self.rules[0].evaluate(values)
         for rule in self.rules[1:]:
-            _, for_update = rule.eval(values)
+            _, for_update = rule.evaluate(values)
             for var_name in for_update:
                 final_sets[var_name] = UnionFuzzySet(
                     final_sets[var_name],
