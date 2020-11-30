@@ -43,7 +43,7 @@ from .fuzzy_system_impl import (
     lom_dediffusion,
     mom_dediffusion,
     som_dediffusion,
-    FuzzySystem,
+    FuzzyInferenceSystem,
 )
 from .norms import (
     tconorm_max,

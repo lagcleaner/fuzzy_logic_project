@@ -1,5 +1,5 @@
 import graph
-import fuzzy_system as fs
+import fuzzy_logic_system as fs
 
 ##################################
 ###  LIE - DETECTION - SYSTEM  ###
@@ -236,7 +236,7 @@ rule10 = fs.MamdaniRule(
         (veredict, 'lying')
     ]
 )
-fuzzy_inference_system = fs.fuzzy_system_impl.FuzzySystem(
+fuzzy_inference_system = fs.fuzzy_system_impl.FuzzyInferenceSystem(
     rules=[rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9]
 )
 

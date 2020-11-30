@@ -1,5 +1,5 @@
-from fuzzy_system.fuzzy_set import FuzzySet
-from fuzzy_system.norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
+from .fuzzy_set import FuzzySet
+from .norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
 
 # region Language Variable
 

@@ -1,6 +1,6 @@
 
 from math import exp
-from fuzzy_system.norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
+from .norms import tconorm_max, tconorm_product, tnorm_min, tnorm_product
 
 
 class FuzzySet:

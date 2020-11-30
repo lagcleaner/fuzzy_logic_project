@@ -1,5 +1,5 @@
 from numpy import arange
-from fuzzy_system.fuzzy_set import CustomizableFuzzySet
+from .fuzzy_set import CustomizableFuzzySet
 
 
 def domain_sample(cfs: CustomizableFuzzySet, step=0.1):

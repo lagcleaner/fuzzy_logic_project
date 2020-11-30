@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from fuzzy_system import LinguisticVariable, domain_sample, CustomizableFuzzySet
+from fuzzy_logic_system import domain_sample, CustomizableFuzzySet
 
 
 def graph(cfs: CustomizableFuzzySet):

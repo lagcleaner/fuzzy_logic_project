@@ -1,8 +1,8 @@
-from fuzzy_system.fuzzy_set import UnionFuzzySet
-from fuzzy_system.dediffusion import centroid_dediffusion, bisection_dediffusion, mom_dediffusion, lom_dediffusion, som_dediffusion
+from .fuzzy_set import UnionFuzzySet
+from .dediffusion import centroid_dediffusion, bisection_dediffusion, mom_dediffusion, lom_dediffusion, som_dediffusion
 
 
-class FuzzySystem:
+class FuzzyInferenceSystem:
     def __init__(self, rules: list):
         self.rules = rules
 
