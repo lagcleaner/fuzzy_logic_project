@@ -20,7 +20,7 @@ class FuzzySet:
 
 class CustomizableFuzzySet(FuzzySet):
     '''
-    Generic fuzzy set with a domain and a membership function to be specified.
+    Generic fuzzy set with a domain and a membership function to be specified on parameters.
     '''
 
     def __init__(self, name: str, domain: tuple, membership_function=None, points=[]):

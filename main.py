@@ -10,7 +10,7 @@ import fuzzy_logic_system as fs
 ##########################
 
 # region Degree of Credibility (appreciation)
-dc_credible = fs.TrapezoidalFuzzySet('credible', domain=(0, 10))
+dc_credible = fs.SigmoidalFuzzySet('credible', domain=(0, 10))
 degree_of_credibility = fs.LanguageVariable(
     'Credibility',
     dc_credible
@@ -18,9 +18,9 @@ degree_of_credibility = fs.LanguageVariable(
 # endregion
 
 # region Heart Rate (BEATS/MINUTES)
-hr_slow = fs.LFuzzySet('slow', domain=(0, 70))
+hr_slow = fs.LFuzzySet('slow', domain=(30, 70), points=[30, 50])
 hr_medium = fs.TrapezoidalFuzzySet('medium', domain=(55, 120))
-hr_fast = fs.GammaFuzzySet('fast', domain=(110, 180))
+hr_fast = fs.GammaFuzzySet('fast', domain=(110, 180), points=[90, 180])
 heart_rate = fs.LanguageVariable(
     'HeartRate',
     hr_fast,
@@ -31,8 +31,8 @@ heart_rate = fs.LanguageVariable(
 # endregion
 
 # region Blood Systolic Pressure (mmHg)
-bsp_normal = fs.ZFuzzySet('normal', domain=(0, 120))
-bsp_slightly_high = fs.GaussianFuzzySet('slightly-high', domain=(110, 140))
+bsp_normal = fs.ZFuzzySet('normal', domain=(90, 110))
+bsp_slightly_high = fs.GaussianFuzzySet('slightly-high', domain=(105, 135))
 bsp_high = fs.SigmoidalFuzzySet('high', domain=(130, 180))
 blood_systolic_pressure = fs.LanguageVariable(
     'BloodSystolicPressure',
@@ -44,9 +44,9 @@ blood_systolic_pressure = fs.LanguageVariable(
 # endregion
 
 # region Blood Diastolic Pressure (mmHg)
-bdp_normal = fs.ZFuzzySet('normal', domain=(0, 90))
-bdp_slightly_high = fs.GaussianFuzzySet('slightly-high', domain=(75, 95))
-bdp_high = fs.SigmoidalFuzzySet('high', domain=(90, 110))
+bdp_normal = fs.ZFuzzySet('normal', domain=(60, 95))
+bdp_slightly_high = fs.GaussianFuzzySet('slightly-high', domain=(70, 100))
+bdp_high = fs.SigmoidalFuzzySet('high', domain=(80, 100))
 blood_diastolic_pressure = fs.LanguageVariable(
     'BloodDiastolicPressure',
     bdp_normal,
@@ -56,7 +56,7 @@ blood_diastolic_pressure = fs.LanguageVariable(
 
 # endregion
 
-# region Breathing Speed
+# region Breathing Speed (fluctuations -10 to 10)
 bs_decreasing = fs.ZFuzzySet('decreasing', domain=(-10, 0))
 bs_constant = fs.GaussianFuzzySet('constant', domain=(-2, 2))
 bs_increasing = fs.SigmoidalFuzzySet('increasing', domain=(0, 10))
@@ -70,7 +70,7 @@ breathing_speed = fs.LanguageVariable(
 # endregion
 
 # region Skin Conductance (relating with the sweat)
-sc_normal = fs.ZFuzzySet('normal', domain=(0, 10))
+sc_normal = fs.ZFuzzySet('normal', domain=(0, 12))
 sc_high = fs.SigmoidalFuzzySet('high', domain=(8, 20))
 skin_conductance = fs.LanguageVariable(
     'SkinConductance',
@@ -84,7 +84,7 @@ skin_conductance = fs.LanguageVariable(
 # <ConsequentVariables>
 #########################
 
-# region Stress Level
+# region Stress Level (degree)
 strs_low = fs.ZFuzzySet('low', domain=(0, 4.5))
 strs_medium = fs.GaussianFuzzySet('medium', domain=(3, 7))
 strs_high = fs.SigmoidalFuzzySet('high', domain=(5.5, 10))
@@ -98,12 +98,12 @@ stress_level = fs.LanguageVariable(
 # endregion
 
 # region Veredict
-v_lying = fs.ZFuzzySet('lying', domain=(0, 5.5))
-v_confessing = fs.SigmoidalFuzzySet('confessing', domain=(4.5, 10))
+ver_lying = fs.ZFuzzySet('lying', domain=(0, 5.5))
+ver_not_lying = fs.SigmoidalFuzzySet('not lying', domain=(4.5, 10))
 veredict = fs.LanguageVariable(
     'Veredict',
-    v_lying,
-    v_confessing
+    ver_lying,
+    ver_not_lying,
 )
 
 # endregion
@@ -118,24 +118,32 @@ proposition_stable_blood_pressure = (
     (blood_systolic_pressure % 'normal')
 )
 proposition_slightly_high_blood_pressure = (
-    (blood_diastolic_pressure % 'slightly-high') &
-    (blood_systolic_pressure % 'slightly-high') |
-
-    (blood_diastolic_pressure % 'slightly-high') &
-    (blood_systolic_pressure % 'normal') |
-
-    (blood_diastolic_pressure % 'normal') &
-    (blood_systolic_pressure % 'slightly-high')
+    (
+        (blood_diastolic_pressure % 'slightly-high') &
+        (blood_systolic_pressure % 'slightly-high')
+    ) |
+    (
+        (blood_diastolic_pressure % 'slightly-high') &
+        (blood_systolic_pressure % 'normal')
+    ) |
+    (
+        (blood_diastolic_pressure % 'normal') &
+        (blood_systolic_pressure % 'slightly-high')
+    )
 )
 proposition_high_blood_pressure = (
-    (blood_diastolic_pressure % 'high') &
-    (blood_systolic_pressure % 'high') |
-
-    (blood_diastolic_pressure % 'high') &
-    (blood_systolic_pressure % 'slightly-high') |
-
-    (blood_diastolic_pressure % 'slightly-high') &
-    (blood_systolic_pressure % 'high')
+    (
+        (blood_diastolic_pressure % 'high') &
+        (blood_systolic_pressure % 'high')
+    ) |
+    (
+        (blood_diastolic_pressure % 'high') &
+        (blood_systolic_pressure % 'slightly-high')
+    ) |
+    (
+        (blood_diastolic_pressure % 'slightly-high') &
+        (blood_systolic_pressure % 'high')
+    )
 )
 
 # endregion
@@ -143,7 +151,6 @@ proposition_high_blood_pressure = (
 # region Credibility Prepositions
 proposition_credible = (degree_of_credibility % 'credible')
 proposition_not_credible = ~(degree_of_credibility % 'credible')
-
 # endregion
 
 #########################
@@ -153,8 +160,8 @@ proposition_not_credible = ~(degree_of_credibility % 'credible')
 # region Rules
 rule1 = fs.MamdaniRule(
     (
-        (heart_rate % 'fast') |
-        (breathing_speed % 'increasing') |
+        (heart_rate % 'fast') &
+        (breathing_speed % 'increasing') &
         (skin_conductance % 'high')
     ), [
         (stress_level, 'high'),
@@ -167,18 +174,18 @@ rule2 = fs.MamdaniRule(
         (breathing_speed % 'decreasing')
     ) & (skin_conductance % 'normal'),
     [
-        (stress_level, 'low')
+        (stress_level, 'low'),
+        (veredict, 'not lying')
     ]
 )
 rule3 = fs.MamdaniRule(
     proposition_stable_blood_pressure,
     [
         (stress_level, 'low'),
-        (veredict, 'confessing')
+        (veredict, 'not lying')
     ]
 )
 rule4 = fs.MamdaniRule(
-    proposition_high_blood_pressure |
     proposition_slightly_high_blood_pressure,
     [
         (stress_level, 'medium'),
@@ -187,16 +194,36 @@ rule4 = fs.MamdaniRule(
 rule5 = fs.MamdaniRule(
     proposition_high_blood_pressure,
     [
-        (stress_level, 'medium'),
+        (stress_level, 'high'),
         (veredict, 'lying'),
     ]
 )
-rule6 = fs.MamdaniRule(
+rule6_1 = fs.MamdaniRule(
     (
-        (heart_rate % 'fast') |
-        (breathing_speed % 'increasing') |
-        (skin_conductance % 'high')
-    ),
+        (heart_rate % 'medium') |
+        (breathing_speed % 'constant')
+    ) & (skin_conductance % 'high'),
+    [
+        (stress_level, 'medium'),
+        (veredict, 'lying')
+    ]
+)
+rule6_2 = fs.MamdaniRule(
+    (
+        (skin_conductance % 'normal') |
+        (breathing_speed % 'constant')
+    ) & (heart_rate % 'fast'),
+    [
+        (stress_level, 'medium'),
+        (veredict, 'lying')
+    ]
+)
+
+rule6_3 = fs.MamdaniRule(
+    (
+        (skin_conductance % 'normal') |
+        (heart_rate % 'medium')
+    ) & (breathing_speed % 'increasing'),
     [
         (stress_level, 'medium'),
         (veredict, 'lying')
@@ -204,30 +231,35 @@ rule6 = fs.MamdaniRule(
 )
 rule7 = fs.MamdaniRule(
     (
-        (heart_rate % 'medium') |
-        (breathing_speed % 'constant') |
-        (skin_conductance % 'normal')
-    ) & proposition_credible,
+        (heart_rate % 'medium') &
+        (breathing_speed % 'constant')
+    ),
     [
         (stress_level, 'medium'),
-        (veredict, 'confessing')
+        (veredict, 'not lying')
     ]
 )
 rule8 = fs.MamdaniRule(
     (
-        (heart_rate % 'slow') |
-        (breathing_speed % 'decreasing') |
+        (
+            (heart_rate % 'slow') &
+            (breathing_speed % 'constant')
+        ) | (
+            (heart_rate % 'medium') &
+            (breathing_speed % 'decreasing')
+        )
+    ) & (
         (skin_conductance % 'normal')
     ),
     [
         (stress_level, 'low'),
-        (veredict, 'confessing')
+        (veredict, 'not lying')
     ]
 )
 rule9 = fs.MamdaniRule(
     proposition_credible,
     [
-        (veredict, 'confessing')
+        (veredict, 'not lying')
     ]
 )
 rule10 = fs.MamdaniRule(
@@ -237,7 +269,14 @@ rule10 = fs.MamdaniRule(
     ]
 )
 fuzzy_inference_system = fs.fuzzy_system_impl.FuzzyInferenceSystem(
-    rules=[rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9]
+    rules=[
+        rule1, rule2,
+        rule3, rule4,
+        rule5, rule6_1,
+        rule6_2, rule6_3,
+        rule7, rule8,
+        rule9, rule10,
+    ]
 )
 
 # endregion
@@ -253,16 +292,16 @@ credibility_value = float(
     input('Degree of Credibility (appreciation) [0, 10]: ')
 )
 heart_rate_value = float(
-    input('Heart Rate (BEATS/MINUTES) [0, 180]: ')
+    input('Heart Rate (BEATS/MINUTES) [30, 180]: ')
 )
 blood_systolic_pressure_value = float(
-    input('Blood Systolic Pressure (mmHg) [0, 180]: ')
+    input('Blood Systolic Pressure (mmHg) [90, 180]: ')
 )
 blood_diastolic_pressure_value = float(
-    input('Blood Diastolic Pressure (mmHg) [0, 110]: ')
+    input('Blood Diastolic Pressure (mmHg) [60, 110]: ')
 )
 breathing_speed_value = float(
-    input('Breathing Speed (BEATS/MINUTES) [-10, 10]: ')
+    input('Breathing Speed (Degree) [-10, 10]: ')
 )
 skin_conductance_value = float(
     input('Skin Conductance (relating with the sweat) [0, 20]: ')
