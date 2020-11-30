@@ -1,8 +1,6 @@
 from fuzzy_system.fuzzy_proposition import FuzzyProposition
 from fuzzy_system.fuzzy_set import FuzzySet, MamdaniCut, LarsenScale
 
-# FuzzyConsequent = type(tuple(_, _))
-
 
 class FuzzyRule:
     '''

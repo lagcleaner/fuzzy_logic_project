@@ -8,7 +8,7 @@ from .dediffusion import (
 )
 from .fuzzy_proposition import (
     FuzzyProposition,
-    LinguisticVariable,
+    LanguageVariable,
     MembershipProposition,
     MembershipProposition,
     NotFuzzyProposition,

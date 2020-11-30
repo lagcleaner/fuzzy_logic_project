@@ -14,7 +14,8 @@ class FuzzySet:
     def membership(self, x):
         raise NotImplementedError
 
-# Custom FuzzySet
+
+# region Custom FuzzySet
 
 
 class CustomizableFuzzySet(FuzzySet):
@@ -41,7 +42,9 @@ class CustomizableFuzzySet(FuzzySet):
     def membership(self, x: float):
         return self._membership(x)
 
-# Specific implementations
+# endregion
+
+# region Specific implementations
 
 
 class GammaFuzzySet(CustomizableFuzzySet):
@@ -258,7 +261,10 @@ class GaussianFuzzySet(CustomizableFuzzySet):
             return 2 * ((b - x) / (b - a)) ** 2
         if x >= b:
             return 0
-# Composed Fuzzy Set
+
+# endregion
+
+# region Composed Fuzzy Set
 
 
 class UnionFuzzySet(CustomizableFuzzySet):
@@ -283,7 +289,9 @@ class UnionFuzzySet(CustomizableFuzzySet):
         )
 
 
-# Mamdani and Larsen Fuzzy Set modifiers
+# endregion
+
+# region Mamdani and Larsen Fuzzy Set modifiers
 
 
 class MamdaniCut(CustomizableFuzzySet):
@@ -315,7 +323,11 @@ class LarsenScale(CustomizableFuzzySet):
     def _larsen(self, x):
         return (self.value * self.origin.membership(x))
 
+# endregion
 
-# aliases
+
+# region Aliases
 PiFuzzySet = TrapezoidalFuzzySet
 TriangleFuzzySet = LambdaFuzzySet
+
+# endregion
