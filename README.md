@@ -1,5 +1,6 @@
 # Fuzzy Logic Project
 
+
 Fuzzy logic python module for handling fuzzy variables, non-discrete systems and fuzzy inference.
 
 ______
